@@ -1,0 +1,315 @@
+<html>
+  <head>
+    <title>sorting.js</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <script src='js/sorting.js'></script>
+    <script src='js/myScripts.js'></script>
+
+    <link rel="stylesheet" href="css/myStyles.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="container">
+      <h1>Let's Learn Sorting</h1>
+      <h2>Choose an Algorithm</h2>
+      <label for='#algo-select'>Algorithm</label>
+      <select class='form-control' id='algo-select' onchange='algoChange()'>
+        <option value='bubblesort'>Bubble sort</option>
+        <option value='selectionsort'>Selection sort</option>
+        <option value='insertionsort'>Insertion sort</option>
+        <option value='odd_even_sort'>Odd-even sort</option>
+        <option value='cocktail_sort'>Cocktail sort</option>
+        <option value='quicksort'>Quicksort</option>
+        <option value='heapsort'>Heapsort</option>
+        <option value='mergesort'>Merge sort</option>
+        <option value='bitonic_mergesort'>Bitonic mergesort</option>
+        <option value='introsort'>Introsort</option>
+      </select>
+      <div class="row">
+        <div class="column">
+          <div id='bubble-sort-copy' class='hidden'>
+            <h4>Explanation of Bubble Sort</h4>
+            <p>
+              Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted. The algorithm, which is a comparison sort, is named for the way smaller or larger elements "bubble" to the top of the list. Although the algorithm is simple, it is too slow and impractical for most problems even when compared to insertion sort. Bubble sort can be practical if the input is in mostly sorted order with some out-of-order elements nearly in position.
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+              procedure bubbleSort(A : list of sortable items )
+                n = length(A)
+                repeat
+                  swapped = false
+                  for i = 1 to n-1 inclusive do
+                    /* if this pair is out of order */
+                    if A[i-1] > A[i] then
+                      /* swap them and remember something changed */
+                      swap( A[i-1], A[i] )
+                      swapped = true
+                    end if
+                  end for
+                until not swapped
+              end procedure
+            </code>
+            <p><a href=https://en.wikipedia.org/wiki/Bubble_sort target="_blank">Source</a></p>
+          </div>
+          <div id='selection-sort-copy' class='hidden'>
+            <h4>Explanation of Selection Sort</h4>
+            <p>
+              The algorithm divides the input list into two parts: the sublist of items already sorted, which is built up from left to right at the front (left) of the list, and the sublist of items remaining to be sorted that occupy the rest of the list. Initially, the sorted sublist is empty and the unsorted sublist is the entire input list. The algorithm proceeds by finding the smallest (or largest, depending on sorting order) element in the unsorted sublist, exchanging (swapping) it with the leftmost unsorted element (putting it in sorted order), and moving the sublist boundaries one element to the right. Uniqueness of selection sort when compared to other sorting techniques:The time efficiency of selection sort is quadratic, so there exists a number of sorting techniques which have better time complexity than selection sort. Even then, considering the number of swaps made, the number of swaps will be n-1 both in worst as well as best case. That is, time efficiency of selection sort with respect to swaps is linear. This property distinguishes selection sort positively from many other sorting algorithms.
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+              procedure selection sort
+               list  : array of items
+               n     : size of list
+
+               for i = 1 to n - 1
+               /* set current element as minimum*/
+                  min = i
+
+                  /* check the element to be minimum */
+
+                  for j = i+1 to n
+                     if list[j] < list[min] then
+                        min = j;
+                     end if
+                  end for
+
+                  /* swap the minimum element with the current element*/
+                  if indexMin != i  then
+                     swap list[min] and list[i]
+                  end if
+               end for
+
+            end procedure
+            </code>
+            <p><a href=https://en.wikipedia.org/wiki/Selection_sort target="_blank">Explanation source</a> and <a href=https://www.tutorialspoint.com/data_structures_algorithms/selection_sort_algorithm.htm target="_blank">Pseudo code source</a></p>
+          </div>
+          <div id='insertion-sort-copy' class='hidden'>
+            <h4>Explanation of Insertion Sort</h4>
+            <p>
+              Insertion sort is a simple sorting algorithm that builds the final sorted array (or list) one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort. However, insertion sort provides several advantages:
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+              i ← 1
+              while i < length(A)
+                j ← i
+                while j > 0 and A[j-1] > A[j]
+                  swap A[j] and A[j-1]
+                  j ← j - 1
+                end while
+                i ← i + 1
+              end while
+            </code>
+            <p><a href=https://en.wikipedia.org/wiki/Insertion_sort target="_blank">Source</a></p>
+          </div>
+          <div id='odd-even-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='cocktail-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='quicksort-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='heapsort-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='merge-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='bitonic-merge-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+          <div id='intro-sort-copy' class='hidden'>
+            <h4>Explanation of ___ Sort</h4>
+            <p>
+
+            </p>
+            <h4>Pseudo code</h4>
+            <code style=display:block;white-space:pre-wrap>
+
+            </code>
+            <p><a href= target="_blank">Source</a></p>
+          </div>
+
+        </div>
+        <div class="column">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <label for='#init-select'>Initial array</label>
+              <select class='form-control' id='init-select'>
+                <option value='random'>Random</option>
+                <option value='sorted'>Sorted</option>
+                <option value='reversed'>Reversed</option>
+              </select>
+            </div>
+            <div id='pivot-select-div'>
+              <label for='#pivot-select'>Pivot choice</label>
+              <select class='form-control' id='pivot-select'>
+                <option value='random'>Random</option>
+                <option value='first'>First</option>
+                <option value='middle'>Middle</option>
+                <option value='last'>Last</option>
+                <option value='median3'>Median of 3</option>
+              </select>
+            </div>
+            <div>
+              <label for='#interval'>Interval (ms)</label>
+              <input id='interval' class='form-control' type='number' value="20"/>
+            </div>
+          </div>
+          <canvas id="myChart2"></canvas>
+          <button id="randomizeBtn">
+              Randomize
+          </button>
+          <button id="start-btn">
+              Sort
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(function() {
+        var aa = null;
+
+        // Make the canvas fit the available space
+        var resize_canvas = function() {
+          $('#main-canvas').width($('#canvas-div').width());
+        }
+        resize_canvas();
+        $(window).resize(resize_canvas);
+
+        ////////////////////////
+        var ctx2 = document.getElementById("myChart2").getContext('2d');
+        let firstData = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+        var myChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: firstData,
+            datasets: [{
+                label: 'Array Value',
+                data: firstData,
+                backgroundColor: '#777',
+                borderColor: '#000',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                  ticks: {
+                      beginAtZero: true,
+                      display: false,
+                  },
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  },
+                }],
+                xAxes: [{
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                  }
+                }]
+            },
+            animation: false,
+            legend: false,
+          }
+        });
+        ////////////////////////
+
+        // Disable / enable the pivot select as needed
+        var update_pivot_select = function() {
+          var algo = $('#algo-select').val();
+          var pivot_algo = sorting.is_pivot_algo(algo);
+          $('#pivot-select').prop('disabled', !pivot_algo);
+          $('#pivot-select-div').toggleClass('hidden', !pivot_algo);
+        }
+        update_pivot_select();
+        $('#algo-select').change(update_pivot_select);
+
+        $('#start-btn').click(function() {
+          if (aa !== null) aa.cancel();
+
+          var n = parseInt($('#array-size').val());
+          var interval = parseInt($('#interval').val());
+          var algo = $('#algo-select').val();
+          var pivot_type = $('#pivot-select').val();
+          var sort_fn = sorting.get_sort_fn(algo, pivot_type);
+
+          if (algo === 'bitonic_mergesort') {
+            // Round up to the nearest power of 2
+            var n2 = 1;
+            while (n2 < n) n2 *= 2;
+            $('#array-size').val(n2);
+            n = n2;
+          }
+
+          ary = myChart.data.datasets[0].data;
+          var init = $('#init-select').val();
+          if (init === 'sorted') {
+            ary.sort(function(a, b) { return a - b; });
+          } else if (init === 'reversed') {
+            ary.sort(function(a, b) {return b - a; });
+          }
+
+          var canvas = document.getElementById('main-canvas');
+          aa = new sorting.AnimatedArray(ary, myChart, interval);
+          sort_fn(aa);
+        });
+      });
+    </script>
+  </body>
+</html>
