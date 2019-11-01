@@ -188,6 +188,10 @@
         <div class="column">
           <div style="display: flex; justify-content: space-between;">
             <div>
+              <label for='#array-size'>Array Size</label>
+              <input id='array-size' class='form-control' type='number' value="20"/>
+            </div>
+            <div>
               <label for='#init-select'>Initial array</label>
               <select class='form-control' id='init-select'>
                 <option value='random'>Random</option>
@@ -217,6 +221,7 @@
           <button id="start-btn">
               Sort
           </button>
+          <canvas id="main-line-chart" class="hidden"></canvas>
         </div>
       </div>
     </div>
@@ -236,8 +241,8 @@
         var ctx2 = document.getElementById("myChart2").getContext('2d');
         let firstData = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
         var myChart = new Chart(ctx2, {
-        type: 'bar',
-        data: {
+          type: 'bar',
+          data: {
             labels: firstData,
             datasets: [{
                 label: 'Array Value',
@@ -247,7 +252,7 @@
                 borderWidth: 1
             }]
         },
-        options: {
+          options: {
             scales: {
                 yAxes: [{
                   ticks: {
@@ -266,6 +271,35 @@
             },
             animation: false,
             legend: false,
+          }
+        });
+        ////////////////////////
+
+        ////////////////////////
+        var ctx3 = document.getElementById("main-line-chart").getContext('2d');
+        var mainLineChart = new Chart(ctx3, {
+          type: 'line',
+          data: {
+            labels: [0],
+            datasets: [
+              {
+                label: 'Number of Swaps',
+                borderColor: "rgba(63, 160, 255, 0.8)",
+                backgroundColor: "rgba(63, 160, 255, 0.2)",
+                steppedLine: true,
+                pointRadius: 0,
+                data: [0],
+              },
+            ]
+          },
+          options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
           }
         });
         ////////////////////////
@@ -306,7 +340,9 @@
           }
 
           var canvas = document.getElementById('main-canvas');
-          aa = new sorting.AnimatedArray(ary, myChart, interval);
+
+
+          aa = new sorting.AnimatedArray(ary, myChart, interval, mainLineChart, mainLineChart.data.datasets[0]);
           sort_fn(aa);
         });
       });

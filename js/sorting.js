@@ -10,75 +10,13 @@ var sorting = (function() {
   }
 
   function draw_array(chart, ary, colors) {
-    /*
-     * Draw an array on a canvas.
-     *
-     * Inputs:
-     * - canvas: a DOM canvas object
-     * - ary: An array of numbers to draw
-     * - colors: An array of the same length as ary, whose ith element
-     *   is a string giving the color for the ith element of ary
-     */
-    // var width_ratio = 2;
-    // var ctx = canvas.getContext('2d');
-    //
-    // // Clear the canvas
-    // ctx.fillStyle = '#fff';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    //
-    // // Find min and max elements
-    // var min = ary[0];
-    // var max = ary[0];
-    // for (var i = 1; i < ary.length; i++) {
-    //   min = ary[i] < min ? ary[i] : min;
-    //   max = ary[i] > max ? ary[i] : max;
-    // }
-    //
-    // // Figure out width of bars and spacing
-    // var n = ary.length;
-    // var spacing = canvas.width / (width_ratio * n + n + 1);
-    // var bar_width = spacing * width_ratio;
-    //
-    // // Draw a box around the outside of the canvas
-    // ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    //
-    // function convert_y(y) {
-    //   // Want convert_y(max) = 0, convert_y(min) = canvas.height`
-    //   var a = canvas.height / (min - max);
-    //   var b = max * canvas.height / (max - min);
-    //   return a * y + b;
-    // }
-    //
-    // // Draw a baseline for zero
-    // var y_zero = convert_y(0);
-    // ctx.beginPath();
-    // ctx.moveTo(0, y_zero);
-    // ctx.lineTo(canvas.width, y_zero);
-    // ctx.stroke();
-    //
-    // // Now draw boxes
-    // var x = spacing;
-    // for (var i = 0; i < ary.length; i++) {
-    //   ctx.fillStyle = colors[i];
-    //   var y = convert_y(ary[i]);
-    //   if (ary[i] >= 0) {
-    //     ctx.fillRect(x, y, bar_width, y_zero - y);
-    //   } else {
-    //     ctx.fillRect(x, y_zero, bar_width, y - y_zero);
-    //   }
-    //   x += spacing + bar_width;
-    // }
-
-    // NEW CODE
-    // let newData = Array.from({length: 10}, () => Math.floor(Math.random() * 40));
     chart.data.datasets[0].data = ary;
     chart.data.labels = ary;
     chart.data.datasets[0].backgroundColor = colors;
     chart.update();
-    ///////////
   }
 
-  function AnimatedArray(ary, chartObj, interval) {
+  function AnimatedArray(ary, chartObj, interval, lineChartObj, lineChartAry) {
     /*
      * An AnimatedArray wraps a pure Javascript array of numbers,
      * and provides functions to compare and swap elements of the array.
@@ -106,6 +44,10 @@ var sorting = (function() {
     this._ary_display = [];
     this._colors = [];
     this._actions = [];
+    this._lineChart = lineChartObj;
+    this._lineChartDataset = lineChartAry;
+    this._comparisons = 0;
+    this._swaps = 0;
     for (var i = 0; i < ary.length; i++) {
       this._ary_display.push(ary[i]);
       this._colors.push(DEFAULT_COLOR);
@@ -129,6 +71,8 @@ var sorting = (function() {
      * this.compare(i, j) > 0 iff this._ary[i] > this._ary[j].
      */
     this._actions.push(['compare', i, j]);
+    // this._comparisons += 1;
+    // console.log(this._comparisons);
     return this._ary[i] - this._ary[j];
   }
 
@@ -144,6 +88,8 @@ var sorting = (function() {
      * Swap this._ary[i] and this._ary[j].
      */
     this._actions.push(['swap', i, j]);
+    // this._swaps += 1;
+    // console.log(this._swaps);
     var t = this._ary[i];
     this._ary[i] = this._ary[j];
     this._ary[j] = t;
@@ -158,7 +104,8 @@ var sorting = (function() {
      */
     if (this._actions.length === 0) {
       draw_array(this._chart, this._ary_display, this._colors);
-      return;
+      this.cancel();
+      return
     }
     var action = this._actions.shift();
     var i = action[1];
@@ -166,13 +113,21 @@ var sorting = (function() {
     if (action[0] === 'compare') {
       this._colors[i] = COMPARE_COLOR;
       this._colors[j] = COMPARE_COLOR;
+      this._comparisons += 1;
+      if (this._comparisons > this._lineChart.data.labels.reduce(function(a, b) { return Math.max(a, b);})) {
+        this._lineChart.data.labels.push(this._comparisons);
+        this._lineChart.update();
+      }
     } else if (action[0] === 'swap') {
       this._colors[i] = SWAP_COLOR;
       this._colors[j] = SWAP_COLOR;
+      this._swaps += 1;
       var t = this._ary_display[i];
       this._ary_display[i] = this._ary_display[j];
       this._ary_display[j] = t;
     }
+    // debugger;
+    this._lineChartDataset.data.push(this._swaps);
     draw_array(this._chart, this._ary_display, this._colors);
     this._colors[i] = DEFAULT_COLOR;
     this._colors[j] = DEFAULT_COLOR;
