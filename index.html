@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>sorting.js</title>
+    <title>SI 649 Individual Project - Jackson Hammond</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
     <script src='js/sorting.js'></script>
@@ -189,7 +189,11 @@
           <div style="display: flex; justify-content: space-between;">
             <div>
               <label for='#array-size'>Array Size</label>
-              <input id='array-size' class='form-control' type='number' value="20"/>
+              <select id='array-size'>
+                <option value='10'>10</option>
+                <option value='20'>20</option>
+                <option value='50'>50</option>
+              </select>
             </div>
             <div>
               <label for='#init-select'>Initial array</label>
@@ -211,18 +215,26 @@
             </div>
             <div>
               <label for='#interval'>Interval (ms)</label>
-              <input id='interval' class='form-control' type='number' value="20"/>
+              <input id='interval' class='form-control' type='number' value="100"/>
             </div>
           </div>
           <canvas id="myChart2"></canvas>
-          <button id="randomizeBtn">
-              Randomize
+          <button id="resetBtn">
+              Reset
           </button>
           <button id="start-btn">
               Sort
           </button>
           <canvas id="main-line-chart" class="hidden"></canvas>
         </div>
+      </div>
+      <div class="row">
+        <div class="column">
+        </div>
+        <div class="column">
+        </div>
+        <canvas>
+        </canvas>
       </div>
     </div>
 
@@ -245,29 +257,29 @@
           data: {
             labels: firstData,
             datasets: [{
-                label: 'Array Value',
-                data: firstData,
-                backgroundColor: '#777',
-                borderColor: '#000',
-                borderWidth: 1
+              label: 'Array Value',
+              data: firstData,
+              backgroundColor: '#777',
+              borderColor: '#000',
+              borderWidth: 1
             }]
-        },
+          },
           options: {
             scales: {
-                yAxes: [{
-                  ticks: {
-                      beginAtZero: true,
-                      display: false,
-                  },
-                  gridLines: {
-                    color: "rgba(0, 0, 0, 0)",
-                  },
-                }],
-                xAxes: [{
-                  gridLines: {
-                    color: "rgba(0, 0, 0, 0)",
-                  }
-                }]
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  display: false,
+                },
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                },
+              }],
+              xAxes: [{
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                }
+              }]
             },
             animation: false,
             legend: false,
@@ -294,11 +306,11 @@
           },
           options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
             }
           }
         });
@@ -314,8 +326,44 @@
         update_pivot_select();
         $('#algo-select').change(update_pivot_select);
 
+        // Fisher-Yates shuffle algorithm
+        // Source I grabbed it from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+        function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+        }
+
+        let resetArray = function() {
+          if (aa !== null) aa.cancel();
+          mainLineChart.data.datasets[0].data = [0];
+          mainLineChart.data.labels = [0];
+          mainLineChart.update();
+          let nextSize = $('#array-size').val();
+          let nextInitCond = $('#init-select').val();
+          let nextData = [...Array(parseInt(nextSize)).keys()].map(x => ++x);
+
+          if (nextInitCond === 'random') {
+            shuffleArray(nextData);
+          } else if (nextInitCond === 'reversed') {
+            nextData = nextData.reverse();
+          }
+
+          myChart.data.datasets[0].data = nextData;
+          myChart.data.labels = nextData;
+          myChart.update();
+        }
+        resetArray();
+        $('#array-size').change(resetArray);
+        $('#init-select').change(resetArray);
+        $('#resetBtn').click(resetArray);
+
         $('#start-btn').click(function() {
           if (aa !== null) aa.cancel();
+          mainLineChart.data.datasets[0].data = [0];
+          mainLineChart.data.labels = [0];
+          mainLineChart.update();
 
           var n = parseInt($('#array-size').val());
           var interval = parseInt($('#interval').val());
@@ -345,6 +393,11 @@
           aa = new sorting.AnimatedArray(ary, myChart, interval, mainLineChart, mainLineChart.data.datasets[0]);
           sort_fn(aa);
         });
+      });
+    </script>
+    <script>
+      $(function() {
+
       });
     </script>
   </body>
