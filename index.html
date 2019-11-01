@@ -230,11 +230,14 @@
       </div>
       <div class="row">
         <div class="column">
+          <canvas id="bottom-bar-1">/<canvas>
         </div>
         <div class="column">
+          <canvas id="bottom-bar-2"></canvas>
         </div>
-        <canvas>
-        </canvas>
+      </div>
+      <div class="row">
+        <canvas id="shared-line-chart"></canvas>
       </div>
     </div>
 
@@ -397,8 +400,105 @@
     </script>
     <script>
       $(function() {
+        var ctx1 = document.getElementById("bottom-bar-1").getContext('2d');
+        let barData1 = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+        var barChart1 = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: barData1,
+            datasets: [{
+              label: 'Array Value',
+              data: barData1,
+              backgroundColor: '#777',
+              borderColor: '#000',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  display: false,
+                },
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                },
+              }],
+              xAxes: [{
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                }
+              }]
+            },
+            animation: false,
+            legend: false,
+          }
+        });
 
+      var ctx2 = document.getElementById("bottom-bar-2").getContext('2d');
+      let barData2 = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+      var barChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: barData2,
+          datasets: [{
+            label: 'Array Value',
+            data: barData2,
+            backgroundColor: '#777',
+            borderColor: '#000',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                display: false,
+              },
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+              },
+            }],
+            xAxes: [{
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+              }
+            }]
+          },
+          animation: false,
+          legend: false,
+        }
       });
+
+    var ctxLast = document.getElementById("shared-line-chart").getContext('2d');
+    var sharedLineChart = new Chart(ctxLast, {
+      type: 'line',
+      data: {
+        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        datasets: [
+          {
+            label: 'Number of Swaps',
+            borderColor: "rgba(63, 160, 255, 0.8)",
+            backgroundColor: "rgba(63, 160, 255, 0.2)",
+            steppedLine: true,
+            pointRadius: 0,
+            data: Array.from({length: 20}, () => Math.floor(Math.random() * 40)),
+          },
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  });
     </script>
   </body>
 </html>
