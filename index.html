@@ -14,7 +14,8 @@
   <body>
     <div class="container">
       <h1>Let's Learn Sorting</h1>
-      <h2>Choose an Algorithm</h2>
+      <h2>Algorithm Investigation</h2>
+      <p>Choose an algorithm below to learn more about how it works, see its pseudo code, and watch it sort an array step by step.</p>
       <label for='#algo-select'>Algorithm</label>
       <select class='form-control' id='algo-select' onchange='algoChange()'>
         <option value='bubblesort'>Bubble sort</option>
@@ -186,7 +187,7 @@
 
         </div>
         <div class="column">
-          <div style="display: flex; justify-content: space-between;">
+          <div class="algorithmInputs">
             <div>
               <label for='#array-size'>Array Size</label>
               <select id='array-size'>
@@ -228,12 +229,14 @@
           <canvas id="main-line-chart" class="hidden"></canvas>
         </div>
       </div>
-      <div class="row">
-        <button id='startRace'>Compare</button>
-      </div>
+
+      <h2>Algorithm Comparison</h2>
+      <p>Choose two algorithms below and click "compare" to watch how their performance compares to one another.</p>
+      <button id='startRace'>Compare</button>
+
       <div class="row">
         <div class="column">
-          <div style="display: flex; justify-content: space-between;">
+          <div class="algorithmInputs">
             <div>
               <label for='#bottom-comparison-1'>Algorithm</label>
               <select class='form-control' id='bottom-comparison-1'>
@@ -262,7 +265,7 @@
           <canvas id="bottom-bar-1">/<canvas>
         </div>
         <div class="column">
-          <div style="display: flex; justify-content: space-between;">
+          <div class="algorithmInputs">
             <div>
               <label for='#bottom-comparison-2'>Algorithm</label>
               <select class='form-control' id='bottom-comparison-2'>
@@ -292,7 +295,9 @@
         </div>
       </div>
       <div class="row">
-        <canvas id="shared-line-chart"></canvas>
+        <div style="width:50%">
+          <canvas id="shared-line-chart"></canvas>
+        </div>
       </div>
     </div>
 
@@ -534,7 +539,7 @@
         labels: [0],
         datasets: [
           {
-            label: 'Number of Swaps',
+            label: 'Left Algorithm Swaps',
             borderColor: "rgba(63, 160, 255, 0.8)",
             backgroundColor: "rgba(63, 160, 255, 0.2)",
             steppedLine: true,
@@ -542,9 +547,9 @@
             data: [0],
           },
           {
-            label: 'Number of Swaps',
-            borderColor: "rgba(255, 227, 59, 0.8)",
-            backgroundColor: "rgba(255, 227, 59, 0.2)",
+            label: 'Right Algorithm Swaps',
+            borderColor: "rgba(255, 125, 61, 0.8)",
+            backgroundColor: "rgba(255, 125, 61, 0.2)",
             steppedLine: true,
             pointRadius: 0,
             data: [0],
@@ -582,6 +587,11 @@
     $('#bottom-comparison-2').change(update_pivot_select2);
 
     $('#startRace').click(function () {
+      sharedLineChart.data.datasets[0].data = [0];
+      sharedLineChart.data.datasets[1].data = [0];
+      sharedLineChart.data.labels = [0];
+      sharedLineChart.update();
+
       var algo = $('#bottom-comparison-1').val();
       var pivot_type = $('#bottom-pivot-1').val();
       var sort_fn1 = sorting.get_sort_fn(algo, pivot_type);
