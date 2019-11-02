@@ -31,6 +31,11 @@ code {
   padding: 1rem;
 }
 
+.column-small {
+  flex: 25%;
+  padding: 1rem;
+}
+
 .hidden {
   display: none;
 }

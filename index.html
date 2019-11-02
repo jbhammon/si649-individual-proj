@@ -229,10 +229,65 @@
         </div>
       </div>
       <div class="row">
+        <button id='startRace'>Compare</button>
+      </div>
+      <div class="row">
         <div class="column">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <label for='#bottom-comparison-1'>Algorithm</label>
+              <select class='form-control' id='bottom-comparison-1'>
+                <option value='bubblesort'>Bubble sort</option>
+                <option value='selectionsort'>Selection sort</option>
+                <option value='insertionsort'>Insertion sort</option>
+                <option value='odd_even_sort'>Odd-even sort</option>
+                <option value='cocktail_sort'>Cocktail sort</option>
+                <option value='quicksort'>Quicksort</option>
+                <option value='heapsort'>Heapsort</option>
+                <option value='mergesort'>Merge sort</option>
+                <option value='introsort'>Introsort</option>
+              </select>
+            </div>
+            <div id='bottom-pivot-1-div'>
+              <label for='#bottom-pivot-1'>Pivot choice</label>
+              <select class='form-control' id='bottom-pivot-1'>
+                <option value='random'>Random</option>
+                <option value='first'>First</option>
+                <option value='middle'>Middle</option>
+                <option value='last'>Last</option>
+                <option value='median3'>Median of 3</option>
+              </select>
+            </div>
+          </div>
           <canvas id="bottom-bar-1">/<canvas>
         </div>
         <div class="column">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <label for='#bottom-comparison-2'>Algorithm</label>
+              <select class='form-control' id='bottom-comparison-2'>
+                <option value='bubblesort'>Bubble sort</option>
+                <option value='selectionsort'>Selection sort</option>
+                <option value='insertionsort'>Insertion sort</option>
+                <option value='odd_even_sort'>Odd-even sort</option>
+                <option value='cocktail_sort'>Cocktail sort</option>
+                <option value='quicksort'>Quicksort</option>
+                <option value='heapsort'>Heapsort</option>
+                <option value='mergesort'>Merge sort</option>
+                <option value='introsort'>Introsort</option>
+              </select>
+            </div>
+            <div id='bottom-pivot-2-div'>
+              <label for='#bottom-pivot-1'>Pivot choice</label>
+              <select class='form-control' id='bottom-pivot-2'>
+                <option value='random'>Random</option>
+                <option value='first'>First</option>
+                <option value='middle'>Middle</option>
+                <option value='last'>Last</option>
+                <option value='median3'>Median of 3</option>
+              </select>
+            </div>
+          </div>
           <canvas id="bottom-bar-2"></canvas>
         </div>
       </div>
@@ -476,7 +531,7 @@
     var sharedLineChart = new Chart(ctxLast, {
       type: 'line',
       data: {
-        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+        labels: [0],
         datasets: [
           {
             label: 'Number of Swaps',
@@ -484,7 +539,15 @@
             backgroundColor: "rgba(63, 160, 255, 0.2)",
             steppedLine: true,
             pointRadius: 0,
-            data: Array.from({length: 20}, () => Math.floor(Math.random() * 40)),
+            data: [0],
+          },
+          {
+            label: 'Number of Swaps',
+            borderColor: "rgba(255, 227, 59, 0.8)",
+            backgroundColor: "rgba(255, 227, 59, 0.2)",
+            steppedLine: true,
+            pointRadius: 0,
+            data: [0],
           },
         ]
       },
@@ -497,6 +560,40 @@
           }]
         }
       }
+    });
+
+    // Disable / enable the pivot select as needed
+    var update_pivot_select1 = function() {
+      var algo = $('#bottom-comparison-1').val();
+      var pivot_algo = sorting.is_pivot_algo(algo);
+      $('#bottom-pivot-1').prop('disabled', !pivot_algo);
+      $('#bottom-pivot-1-div').toggleClass('hidden', !pivot_algo);
+    }
+    update_pivot_select1();
+    $('#bottom-comparison-1').change(update_pivot_select1);
+
+    var update_pivot_select2 = function() {
+      var algo = $('#bottom-comparison-2').val();
+      var pivot_algo = sorting.is_pivot_algo(algo);
+      $('#bottom-pivot-2').prop('disabled', !pivot_algo);
+      $('#bottom-pivot-2-div').toggleClass('hidden', !pivot_algo);
+    }
+    update_pivot_select2();
+    $('#bottom-comparison-2').change(update_pivot_select2);
+
+    $('#startRace').click(function () {
+      var algo = $('#bottom-comparison-1').val();
+      var pivot_type = $('#bottom-pivot-1').val();
+      var sort_fn1 = sorting.get_sort_fn(algo, pivot_type);
+
+      var algo = $('#bottom-comparison-2').val();
+      var pivot_type = $('#bottom-pivot-2').val();
+      var sort_fn2 = sorting.get_sort_fn(algo, pivot_type);
+
+      var animation1 = new sorting.AnimatedArray(barChart1.data.datasets[0].data, barChart1, 100, sharedLineChart, sharedLineChart.data.datasets[0]);
+      sort_fn1(animation1);
+      var animation2 = new sorting.AnimatedArray(barChart2.data.datasets[0].data, barChart2, 100, sharedLineChart, sharedLineChart.data.datasets[1]);
+      sort_fn2(animation2);
     });
   });
     </script>
