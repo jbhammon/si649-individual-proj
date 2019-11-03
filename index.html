@@ -348,20 +348,22 @@ procedure introsort(A, maxdepth):
             </div>
           </div>
           <canvas id="myChart2"></canvas>
-          <button id="resetBtn">
-              Reset
-          </button>
           <button id="start-btn">
               Sort
+          </button>
+          <button id="resetBtn">
+              Reset
           </button>
           <canvas id="main-line-chart" class="hidden"></canvas>
         </div>
       </div>
 
       <h2>Algorithm Comparison</h2>
-      <p>Choose two algorithms below and click "compare" to watch how their performance compares to one another.</p>
-      
-      <button id='startRace'>Compare</button>
+      <p>Choose two algorithms below and click "Compare" to watch how their performance compares to one another. Once they're both completed click "Reset" to shuffle the arrays and start again.</p>
+      <div>
+        <button id='startRace'>Compare</button>
+        <button id='resetRace'>Reset</button>
+      </div>
 
       <div class="row">
         <div class="column">
@@ -610,6 +612,9 @@ procedure introsort(A, maxdepth):
     </script>
     <script>
       $(function() {
+
+        // let sharedData = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+
         var ctx1 = document.getElementById("bottom-bar-1").getContext('2d');
         let barData1 = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
         var barChart1 = new Chart(ctx1, {
@@ -693,7 +698,7 @@ procedure introsort(A, maxdepth):
             borderColor: "rgba(63, 160, 255, 0.8)",
             backgroundColor: "rgba(63, 160, 255, 0.2)",
             steppedLine: true,
-            pointRadius: 0,
+            pointRadius: 1,
             data: [0],
           },
           {
@@ -736,7 +741,20 @@ procedure introsort(A, maxdepth):
     update_pivot_select2();
     $('#bottom-comparison-2').change(update_pivot_select2);
 
-    $('#startRace').click(function () {
+    $('#resetRace').click(function() {
+
+      let newData = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+      barChart1.data.datasets[0].data = newData;
+      barChart1.data.labels = newData;
+      barChart1.update();
+
+      newData = Array.from({length: 20}, () => Math.floor(Math.random() * 40));
+      barChart2.data.datasets[0].data = newData;
+      barChart2.data.labels = newData;
+      barChart2.update();
+    });
+
+    $('#startRace').click(function() {
       sharedLineChart.data.datasets[0].data = [0];
       sharedLineChart.data.datasets[1].data = [0];
       sharedLineChart.data.labels = [0];
@@ -754,8 +772,8 @@ procedure introsort(A, maxdepth):
       sort_fn1(animation1);
       var animation2 = new sorting.AnimatedArray(barChart2.data.datasets[0].data, barChart2, 100, sharedLineChart, sharedLineChart.data.datasets[1]);
       sort_fn2(animation2);
+      });
     });
-  });
     </script>
   </body>
 </html>
