@@ -8,9 +8,9 @@
 
 var sorting = (function() {
 
-  var DEFAULT_COLOR = '#777';
-  var COMPARE_COLOR = '#00f';
-  var SWAP_COLOR = '#f00';
+  var DEFAULT_COLOR = '#A9A9A9';
+  var COMPARE_COLOR = '#7156FF';
+  var SWAP_COLOR = '#34CC31';
 
   function randint(low, high) {
     // Return a random integer in the range [low, high] inclusive.
@@ -41,13 +41,8 @@ var sorting = (function() {
      * code without worrying about callbacks. The downside is that it uses
      * extra memory.
      *
-     * Inputs to the constructor:
-     * - ary: Pure Javascript array to wrap
-     * - canvas: DOM canvas object where we will draw
-     * - interval: Time (in milliseconds) between visualizing each step
      */
     this._ary = ary;
-    // this._canvas = canvas;
     this._chart = chartObj;
     this._ary_display = [];
     this._colors = [];
@@ -79,8 +74,6 @@ var sorting = (function() {
      * this.compare(i, j) > 0 iff this._ary[i] > this._ary[j].
      */
     this._actions.push(['compare', i, j]);
-    // this._comparisons += 1;
-    // console.log(this._comparisons);
     return this._ary[i] - this._ary[j];
   }
 
@@ -96,8 +89,6 @@ var sorting = (function() {
      * Swap this._ary[i] and this._ary[j].
      */
     this._actions.push(['swap', i, j]);
-    // this._swaps += 1;
-    // console.log(this._swaps);
     var t = this._ary[i];
     this._ary[i] = this._ary[j];
     this._ary[j] = t;
@@ -118,14 +109,13 @@ var sorting = (function() {
     var action = this._actions.shift();
     var i = action[1];
     var j = action[2];
+    this._comparisons += 1;
+    if (this._comparisons > this._lineChart.data.labels.reduce(function(a, b) { return Math.max(a, b);})) {
+      this._lineChart.data.labels.push(this._comparisons);
+    }
     if (action[0] === 'compare') {
       this._colors[i] = COMPARE_COLOR;
       this._colors[j] = COMPARE_COLOR;
-      this._comparisons += 1;
-      if (this._comparisons > this._lineChart.data.labels.reduce(function(a, b) { return Math.max(a, b);})) {
-        this._lineChart.data.labels.push(this._comparisons);
-        this._lineChart.update();
-      }
     } else if (action[0] === 'swap') {
       this._colors[i] = SWAP_COLOR;
       this._colors[j] = SWAP_COLOR;
@@ -134,8 +124,8 @@ var sorting = (function() {
       this._ary_display[i] = this._ary_display[j];
       this._ary_display[j] = t;
     }
-    // debugger;
     this._lineChartDataset.data.push(this._swaps);
+    this._lineChart.update();
     draw_array(this._chart, this._ary_display, this._colors);
     this._colors[i] = DEFAULT_COLOR;
     this._colors[j] = DEFAULT_COLOR;

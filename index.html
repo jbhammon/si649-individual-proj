@@ -180,7 +180,7 @@ end procedure
           <div id='quicksort-sort-copy' class='hidden'>
             <h4>Explanation of Quicksort</h4>
             <p>
-              Quicksort is a comparison sort, meaning that it can sort items of any type for which a "less-than" relation is defined. Efficient implementations of Quicksort are not a stable sort, meaning that the relative order of equal sort items is not preserved. Quicksort can operate in-place on an array, requiring small additional amounts of memory to perform the sorting. It is very similar to selection sort, except that it does not always choose worst-case partition.
+              Quicksort is a comparison sort, meaning that it can sort items of any type for which a "less-than" relation is defined. Efficient implementations of Quicksort are not a stable sort, meaning that the relative order of equal sort items is not preserved. Quicksort can operate in-place on an array, requiring small additional amounts of memory to perform the sorting. It is very similar to selection sort, except that it does not always choose worst-case partition. The pivot selection and partitioning steps can be done in several different ways; the choice of specific implementation schemes greatly affects the algorithm's performance.
             </p>
             <h4>Pseudo code</h4>
             <pre><code>
@@ -360,6 +360,7 @@ procedure introsort(A, maxdepth):
 
       <h2>Algorithm Comparison</h2>
       <p>Choose two algorithms below and click "compare" to watch how their performance compares to one another.</p>
+      
       <button id='startRace'>Compare</button>
 
       <div class="row">
@@ -471,8 +472,8 @@ procedure introsort(A, maxdepth):
             datasets: [{
               label: 'Array Value',
               data: firstData,
-              backgroundColor: '#777',
-              borderColor: '#000',
+              backgroundColor: '#A9A9A9',
+              borderColor: '#313131',
               borderWidth: 1
             }]
           },
@@ -618,8 +619,8 @@ procedure introsort(A, maxdepth):
             datasets: [{
               label: 'Array Value',
               data: barData1,
-              backgroundColor: '#777',
-              borderColor: '#000',
+              backgroundColor: '#A9A9A9',
+              borderColor: '#313131',
               borderWidth: 1
             }]
           },
@@ -654,8 +655,8 @@ procedure introsort(A, maxdepth):
           datasets: [{
             label: 'Array Value',
             data: barData2,
-            backgroundColor: '#777',
-            borderColor: '#000',
+            backgroundColor: '#A9A9A9',
+            borderColor: '#313131',
             borderWidth: 1
           }]
         },
