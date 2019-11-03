@@ -514,7 +514,7 @@ procedure introsort(A, maxdepth):
                 borderColor: "rgba(63, 160, 255, 0.8)",
                 backgroundColor: "rgba(63, 160, 255, 0.2)",
                 steppedLine: true,
-                pointRadius: 0,
+                pointRadius: 1,
                 data: [0],
               },
             ]
@@ -524,6 +524,16 @@ procedure introsort(A, maxdepth):
               yAxes: [{
                 ticks: {
                   beginAtZero: true
+                },
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Number of Swaps'
+                }
+              }],
+              xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Algorithm Step Count'
                 }
               }]
             }
@@ -716,6 +726,16 @@ procedure introsort(A, maxdepth):
           yAxes: [{
             ticks: {
               beginAtZero: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Number of Swaps'
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Algorithm Step Count',
             }
           }]
         }
